@@ -1,0 +1,237 @@
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'Century Gothic';
+            src: url('http://www.inspirationsframing.co.uk/wpscripts/wp47440880.ttf');
+        }
+
+        body {
+            padding: 10% 20%;
+            background: #fff;
+            font-family: "Century Gothic", sans-serif;
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        .container {
+            max-width: 130%;
+        }
+
+        .outer-container {
+            height: 10em;
+            position: relative;
+            height: 300px;
+            max-width: 130%;
+        }
+
+        #price {
+            width: 100%;
+            text-align: center;
+        }
+
+        .price {
+            width: 100%;
+            text-align: center;
+            width: 100%;
+            text-align: center;
+            color: #eaeaea;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+            font-size: xx-large;
+        }
+
+        .price-name {
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+            font-size: larger;
+        }
+
+        .container {
+            margin: 0;
+            padding: 30px;
+            background: #70a5d2;
+            position: absolute;
+            border-radius: 5px;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%)
+        }
+
+        input {
+            font-size: 20px;
+            border-radius: 5px;
+            padding: 5px;
+        }
+
+        select {
+            font-size: 20px;
+            border-radius: 5px;
+            margin-top: 10px;
+            max-width: 100%;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+</head><body cz-shortcut-listen="true">
+<div class="outer-container">
+    <div class="container">
+        <input type="text" name="" id="width" value="1000" size="6" maxlength="8" style="border: 1px solid silver;"> X
+        <input type="text" name="" id="height" value="1000" size="6" maxlength="8" style="border: 1px solid silver;">
+        <select style="margin-left: 15px; padding: 5px;" id="cmin" name="">
+            <option value="0.1">mm</option>
+            <option value="2.54">inches</option>
+        </select>
+        <br>
+        <br>
+        <select name="" id="papertype" style="border: 1px solid silver;">
+            <option value="0" selected="selected">Select your paper</option>
+            <option value="77.54">Finetex Polyester Canvas 280gsm</option><option value="102.47">Soft Textured Paper 310gsm</option><option value="75.17">Premium Satin Photo Paper 260gsm</option><option value="73.99">Satin Photo Paper 190gsm</option><option value="82.20">Premium Matt Vinyl</option>            </select>
+        <br>
+        <br>
+        <select name="" id="mounting" style="text-align:center;">
+            <option value="0" selected="selected">No mounting</option>
+            <option value="0.00">--------- FOAM CORE BOARD -----------</option><option value="24.20">3mm Foam Core</option><option value="26.20">5mm Foam Core</option><option value="29.60">5mm Acid Free Foam Core</option><option value="33.30">5mm Black Foam Core</option><option value="31.30">10mm Foam Core</option><option value="21.70">Display Board</option><option value="0.00">------------- MDF CUT TO SIZE -----------</option><option value="69.40">2.5mm</option><option value="70.60">3mm</option><option value="75.00">6mm</option><option value="84.60">12mm</option>            </select>
+        <br>
+        <br>
+        <select name="" id="coating">
+            <option value="0" selected="selected">No lamination</option>
+            <option value="23.70">Gloss Coat</option><option value="23.70">Satin Coat</option><option value="24.20">Matt Coat</option>            </select>
+       &nbsp; &nbsp; &nbsp;
+        &nbsp;
+
+        <select name="" id="vat" on onchange="calculate()">
+            <option value="1" selected="selected">Select Option</option>
+            <option value="1.2">With VAT</option><option value="1" id="withoutVat">Without VAT</option> </select>
+        <br>
+        <br>
+        <div class="price-name">Price:</div>
+        <div class="price">&pound;<span id="output"></span></div>
+        <!--div id="inc">inches</div> -->
+    </div>
+</div>
+<script>
+    //if (window.location.hostname == 'search-intelligence.co.uk') {
+    function calculate() {
+        //Get
+        var bla = $('#txt_name').val();
+        //Set
+        $('#txt_name').val('bla');
+        cmin = $('#cmin').val();
+        height = $('#height').val();
+        width = $('#width').val();
+        papertype = $('#papertype').val();
+        coating = $('#coating').val();
+        mounting = $('#mounting').val();
+        thewidth = cmin * width;
+        theheight = cmin * height;
+        squarem = thewidth * theheight / 10000;
+//        onlypapertype = squarem * papertype;
+//        onlycoating = squarem * coating;
+//        onlymounting = squarem * mounting;
+        vatVal=$('#vat').val();
+        if (vatVal >1 )
+        {
+            onlypapertype = squarem * papertype * vatVal;
+            onlycoating = squarem * coating * vatVal;
+            onlymounting = squarem * mounting * vatVal;
+        } else if(vatVal=1 || vatVal<1)
+        {
+            onlypapertype = squarem * papertype;
+            onlycoating = squarem * coating;
+            onlymounting = squarem * mounting;
+        }
+        if (onlypapertype >= 0) {
+            onlymounting = onlymounting;
+            onlycoating = onlycoating;
+            $("#papertype").css("border", "1px solid silver");
+        }
+        else {
+            onlymounting = 0;
+            onlycoating = 0;
+            $("#papertype").css("border", "5px solid red");
+        }
+        if (height > 0) {
+            onlypapertype = onlypapertype;
+            onlymounting = onlymounting;
+            onlycoating = onlycoating;
+            $("#height").css("border", "1px solid silver");
+        }
+        else {
+            onlypapertype = 0;
+            onlymounting = 0;
+            onlycoating = 0;
+            $("#height").css("border", "5px solid red");
+        }
+        if (width > 0) {
+            onlypapertype = onlypapertype;
+            onlymounting = onlymounting;
+            onlycoating = onlycoating;
+            $("#width").css("border", "1px solid silver");
+        }
+        else {
+            onlypapertype = 0;
+            onlymounting = 0;
+            onlycoating = 0;
+            $("#width").css("border", "5px solid red");
+        }
+
+        minvaluep = 0;
+        minvaluem = 0;
+        minvaluel = 0;
+
+
+
+        if (onlypapertype > 0 && onlypapertype < 6) {
+            minvaluep = 6;
+        }
+
+        if (onlymounting > 0 && onlymounting < 4) {
+            minvaluem = 4;
+        }
+
+        if (onlycoating > 0 && onlycoating < 4) {
+            minvaluel = 4;
+        }
+
+        minimumvalue = minvaluep+minvaluem+minvaluel;
+
+        finalvalue = onlymounting + onlycoating + onlypapertype;
+
+        if (finalvalue < minimumvalue) {
+
+            finalvalue = minimumvalue;
+        }
+
+        else {finalvalue = finalvalue + minimumvalue;}
+
+
+        document.getElementById('output').innerHTML = Math.round(finalvalue)
+        document.getElementById('inc').innerHTML = squarem;
+    }
+    $("#papertype").on("change", function () {
+        calculate();
+    });
+    $("#height").on("change paste keyup", function () {
+        calculate();
+    });
+    $("#width").on("change paste keyup", function () {
+        calculate();
+    });
+    $("#mounting").on("change", function () {
+        calculate();
+    });
+    $("#coating").on("change", function () {
+        calculate();
+    });
+    $("#cmin").on("change", function () {
+        calculate();
+    });
+    //}
+</script>
+
+
+</body></html>
