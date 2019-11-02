@@ -17,6 +17,7 @@ Route::get('login', function () { return view('auth\login'); })->name('login'); 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/calc', 'HomeController@calc')->name('calc');
 //admin
 Route::group(['middleware' => 'role:admin'], function() {
 
